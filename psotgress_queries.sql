@@ -59,3 +59,31 @@ SELECT student_name FROM enrollment as e
 JOIN students as s on s.student_id = e.student_id
 JOIN courses as c on c.course_id = e.course_id
 WHERE course_name = 'Next.js'
+
+-- query 3 updating higest mark status to awarded
+UPDATE students
+SET status = 'Awarded'
+WHERE (frontend_mark + backend_mark) = (
+    SELECT MAX(frontend_mark + backend_mark) FROM students
+)
+
+-- query 4 deleting courses if there are no students
+DELETE FROM courses
+WHERE course_id NOT IN (SELECT course_id from enrollment)
+
+-- query 5 retrive all student limit 2 from 3rd
+SELECT student_name FROM students
+LIMIT 2 OFFSET 2
+
+-- query 6 retrive courses with student numbers
+SELECT course_name, count(student_id) as students_enrolled
+FROM enrollment as e
+JOIN courses as c on c.course_id = e.course_id
+GROUP BY course_name
+
+-- query 7 display avarge age of all students
+SELECT ROUND(AVG(age), 2) as average_age FROM students
+
+-- query 8
+SELECT student_name FROM students
+WHERE email LIKE '%example.com'
