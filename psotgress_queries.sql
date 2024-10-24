@@ -59,31 +59,37 @@ SELECT student_name FROM enrollment as e
 JOIN students as s on s.student_id = e.student_id
 JOIN courses as c on c.course_id = e.course_id
 WHERE course_name = 'Next.js'
+-- joining the foreign tabls and with where clause matching with course_name next.js
 
 -- query 3 updating higest mark status to awarded
 UPDATE students
 SET status = 'Awarded'
 WHERE (frontend_mark + backend_mark) = (
     SELECT MAX(frontend_mark + backend_mark) FROM students
-)
+) -- using where clause to find maximum mark student
 
 -- query 4 deleting courses if there are no students
 DELETE FROM courses
-WHERE course_id NOT IN (SELECT course_id from enrollment)
+WHERE course_id NOT IN (SELECT course_id from enrollment) 
+--matching the courses id with enrollment course id to find which course do not have student
 
 -- query 5 retrive all student limit 2 from 3rd
 SELECT student_name FROM students
 LIMIT 2 OFFSET 2
+-- retriving 2 column strating from 3rd
 
 -- query 6 retrive courses with student numbers
 SELECT course_name, count(student_id) as students_enrolled
 FROM enrollment as e
 JOIN courses as c on c.course_id = e.course_id
 GROUP BY course_name
+-- with group by creating a group tabel with course name and students init
 
 -- query 7 display avarge age of all students
 SELECT ROUND(AVG(age), 2) as average_age FROM students
+--finding avg then round that number in 2 decimal
 
 -- query 8
 SELECT student_name FROM students
 WHERE email LIKE '%example.com'
+-- finding stdunets where there email have example.com in last
